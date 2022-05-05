@@ -1,21 +1,59 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package Clases;
 
-/**
- *
- * @author hp
- */
 public class Analyzer extends javax.swing.JFrame {
 
-    /**
-     * Creates new form Analyzer
-     */
+    //Objeto de la clase Read(Leer archivo) 
+    Read content = new Read();
+
     public Analyzer() {
         initComponents();
+    }
+
+    //Siguiente caracter
+    public char nextCaracter(int i) {
+        String s = content.LeerArchivo();
+        char x;
+        if (i < s.length()) {
+            x = s.charAt(i);
+            i++;
+        } else {
+            x = '*';
+        }
+        return x;
+    }
+
+    //Trae  Token del archivo TXT
+    public void ExtracTokensFromFile() {
+        //Almacena la cadena completa del TXT
+        String cadenaMain = content.LeerArchivo();
+        char symbolCurrent;
+        //Itera todo el contenido del TXT
+        for (int i = 0; i < cadenaMain.length(); i++) {
+            symbolCurrent = cadenaMain.charAt(i);
+            //Convetit char en String sySt = symbol String
+            String sySt = String.valueOf(symbolCurrent);
+            //El siguiente token
+            String nextSymbol = String.valueOf(nextCaracter(i));
+
+            //Es un comentario?
+            if (sySt.equals("/") && nextSymbol.equals("*")) {
+                for (int j = i; j < cadenaMain.length(); j++) {
+                    symbolCurrent = cadenaMain.charAt(j);
+                    sySt = String.valueOf(symbolCurrent);
+                    nextSymbol = String.valueOf(nextCaracter(j));
+                    //Termina el comentario
+                    if (sySt.equals("*") && nextSymbol.equals("/")) {
+                        //Guarda el token comentario
+                        System.out.println(""+sySt);
+                    } else {
+                        //Sigue iterando hasta que termine el token
+                        
+                    }
+                }
+
+            }
+        }
+
     }
 
     /**
@@ -49,7 +87,7 @@ public class Analyzer extends javax.swing.JFrame {
         jLabel1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Images/EncabezadoLAII2.png"))); // NOI18N
 
         jLabel2.setFont(new java.awt.Font("Arial", 1, 18)); // NOI18N
-        jLabel2.setText("Lexycal Analyzer Team 6 V.1.0");
+        jLabel2.setText("Lexical Analyzer Team 6 V.1.0");
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
@@ -84,7 +122,7 @@ public class Analyzer extends javax.swing.JFrame {
 
         jLabel3.setText("Pre-release 1.0.0 May 2022");
 
-        jLabel4.setText("Team 6 by: @Dulce Alejandra & @Isui Martinez");
+        jLabel4.setText("Team 6 by: @Dulce Hernández & @Isui Martinez");
 
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
@@ -107,11 +145,16 @@ public class Analyzer extends javax.swing.JFrame {
                 .addContainerGap())
         );
 
-        jButton4.setText("jButton4");
+        jButton4.setText("Leer");
 
-        jButton5.setText("jButton5");
+        jButton5.setText("Analizar");
+        jButton5.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton5ActionPerformed(evt);
+            }
+        });
 
-        jButton6.setText("jButton6");
+        jButton6.setText("Reiniciar");
 
         jButton7.setText("jButton7");
 
@@ -123,11 +166,11 @@ public class Analyzer extends javax.swing.JFrame {
             jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel3Layout.createSequentialGroup()
                 .addGap(38, 38, 38)
-                .addComponent(jButton4)
+                .addComponent(jButton4, javax.swing.GroupLayout.PREFERRED_SIZE, 82, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
-                .addComponent(jButton5)
+                .addComponent(jButton5, javax.swing.GroupLayout.PREFERRED_SIZE, 86, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
-                .addComponent(jButton6)
+                .addComponent(jButton6, javax.swing.GroupLayout.PREFERRED_SIZE, 84, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
                 .addComponent(jButton7)
                 .addGap(18, 18, 18)
@@ -182,6 +225,11 @@ public class Analyzer extends javax.swing.JFrame {
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
+
+    private void jButton5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton5ActionPerformed
+        // TODO add your handling code here:
+        this.ExtracTokensFromFile();
+    }//GEN-LAST:event_jButton5ActionPerformed
 
     /**
      * @param args the command line arguments
